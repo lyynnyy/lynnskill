@@ -1,0 +1,9 @@
+.DS_Store
+__pycache__/
+*.pyc
+.pytest_cache/
+dist/
+*.zip
+tmp/
+folder_cleanup_*/
+disk_audit_*/
