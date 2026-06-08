@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Output Manager / 项目产出管理助手"
+  short_description: "按客户、项目和产出类型路由交付文件并避免重复保存"
+  default_prompt: "Use $project-folder-router to route a project deliverable by customer, project, and output type while avoiding duplicate saved files."

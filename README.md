@@ -9,6 +9,7 @@ This repository collects reusable AI skills for Codex and Claude. Each skill has
 | Skill | Name / 名称 | What it does / 用途 |
 | --- | --- | --- |
 | [folder-cleanup-archiver](skills/folder-cleanup-archiver/README.md) | Folder Cleanup Archiver / 文件清理归档助手 | Safely scan local folders, identify cleanup/archive candidates, move stale files with verification, and maintain a searchable cleanup index. / 安全扫描本地文件夹，识别可清理和可归档内容，复核归档移动结果，并维护可检索的清理台账。 |
+| [project-folder-router](skills/project-folder-router/README.md) | Project Output Manager / 项目产出管理助手 | Route generated deliverables into customer/project/output-type folders, avoid duplicate saved files, and record routing decisions. / 将生成的交付物路由到客户、项目、产出类型文件夹，避免重复保存，并记录路由决策。 |
 
 ## Repository Layout / 仓库结构
 
