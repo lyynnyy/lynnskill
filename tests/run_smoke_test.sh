@@ -4,6 +4,7 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CLEANUP_SKILL_DIR="$REPO_ROOT/skills/folder-cleanup-archiver"
 ROUTER_SKILL_DIR="$REPO_ROOT/skills/project-folder-router"
+PDF_SKILL_DIR="$REPO_ROOT/skills/pdf-learning-planner"
 BASE="${TMPDIR:-/tmp}/lynnskill-smoke"
 ROOT="$BASE/folder-cleanup/root"
 AUDIT="$BASE/folder-cleanup/audit"
@@ -91,5 +92,55 @@ grep -q '^status=save_needed$' "$ROUTER_BASE/route_copy.out"
 grep -q '^saved_file=' "$ROUTER_BASE/route_copy.out"
 grep -q '^status=file_exists$' "$ROUTER_BASE/route_duplicate.out"
 test -f "$ROUTER_ROOT/产出管理/folder_routing_log.md"
+
+PDF_BASE="$BASE/pdf-learning-planner"
+mkdir -p "$PDF_BASE"
+printf '%s\n' '%PDF-1.4 smoke placeholder' > "$PDF_BASE/sample.pdf"
+
+python3 -m py_compile \
+  "$PDF_SKILL_DIR/scripts/build_pdf_page_manifest.py" \
+  "$PDF_SKILL_DIR/scripts/create_task_card_pdf.py"
+
+python3 "$PDF_SKILL_DIR/scripts/build_pdf_page_manifest.py" \
+  "$PDF_BASE/sample.pdf" \
+  --sample-pages "" \
+  --output "$PDF_BASE/manifest.json"
+
+python3 - "$PDF_BASE/manifest.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+manifest = json.loads(Path(sys.argv[1]).read_text())
+assert manifest["source_pdf"].endswith("sample.pdf"), manifest
+assert manifest["sample_pages"] == [], manifest
+PY
+
+if python3 -c 'import PIL' >/dev/null 2>&1; then
+  python3 - "$PDF_BASE/worksheet.png" <<'PY'
+from PIL import Image, ImageDraw
+import sys
+
+img = Image.new("RGB", (800, 1100), "white")
+draw = ImageDraw.Draw(img)
+draw.rectangle([80, 120, 720, 980], outline="black", width=4)
+draw.text((120, 160), "Smoke worksheet", fill="black")
+img.save(sys.argv[1])
+PY
+  cp "$PDF_SKILL_DIR/assets/task-card-template.json" "$PDF_BASE/task.json"
+  python3 "$PDF_SKILL_DIR/scripts/create_task_card_pdf.py" \
+    --plan-json "$PDF_BASE/task.json" \
+    --worksheet-image "$PDF_BASE/worksheet.png" \
+    --output-pdf "$PDF_BASE/task-card.pdf"
+  test -s "$PDF_BASE/task-card.pdf"
+else
+  echo "Pillow not installed; skipping pdf-learning-planner task-card render smoke"
+fi
+
+if command -v xcrun >/dev/null 2>&1; then
+  xcrun swift -frontend -parse "$PDF_SKILL_DIR/scripts/calendar_eventkit.swift"
+else
+  echo "xcrun not available; skipping pdf-learning-planner EventKit parse smoke"
+fi
 
 echo "smoke test passed: $BASE"

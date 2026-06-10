@@ -1,0 +1,45 @@
+{
+  "day": 1,
+  "title": "Learning Task",
+  "source": "source.pdf p1",
+  "duration": "15-30 min",
+  "focus": "Observe first, then answer.",
+  "goal": [
+    "Name the key information.",
+    "Explain the relationship before solving."
+  ],
+  "steps": [
+    "Look at the page silently.",
+    "Circle useful information.",
+    "Choose a representation.",
+    "Answer and explain."
+  ],
+  "check": [
+    "Can explain the strategy.",
+    "Can point to evidence on the page."
+  ],
+  "notes": [
+    "Do not rush to the answer.",
+    "Ask what each number, word, or picture means."
+  ],
+  "ability": [
+    {
+      "name": "Context",
+      "progress": "+1"
+    },
+    {
+      "name": "Representation",
+      "progress": "+1"
+    },
+    {
+      "name": "Reasoning",
+      "progress": "practice"
+    },
+    {
+      "name": "Validation",
+      "progress": "oral"
+    }
+  ],
+  "review": "Can the learner explain before checking the answer?",
+  "encouragement": "Good learning starts with noticing structure."
+}

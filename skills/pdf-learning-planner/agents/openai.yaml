@@ -1,0 +1,7 @@
+interface:
+  display_name: "PDF Learning Planner"
+  short_description: "Plan learning from study PDFs"
+  default_prompt: "Use $pdf-learning-planner to turn this study PDF into an evidence-based daily learning plan with task cards and scheduling."
+
+policy:
+  allow_implicit_invocation: true
